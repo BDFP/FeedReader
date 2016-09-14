@@ -1,4 +1,4 @@
-package com.shakdwipeea.feed;
+package com.shakdwipeea.feed.service;
 
 import com.mongodb.rx.client.MongoCollection;
 import com.mongodb.rx.client.MongoDatabase;

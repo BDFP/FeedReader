@@ -2,7 +2,7 @@ package com.shakdwipeea.feed.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mongodb.rx.client.MongoDatabase;
-import com.shakdwipeea.feed.UserService;
+import com.shakdwipeea.feed.service.UserService;
 import com.shakdwipeea.feed.model.ErrorResponse;
 import com.shakdwipeea.feed.model.User;
 import com.shakdwipeea.feed.util.Util;
