@@ -1,5 +1,8 @@
 package com.shakdwipeea.feed.model;
 
+import com.shakdwipeea.feed.util.MongoHelper;
+import org.bson.Document;
+
 /**
  * @author Akash
  *         Created on 01:00 04-09-2016
@@ -9,12 +12,24 @@ public class User {
 
     private int id;
     private String username;
-    private String[] links;
+    private String password;
 
-    public User(int id, String username, String[] links) {
+    public User() {
+        //for jackson
+    }
+
+    public User(int id, String username, String password) {
         this.id = id;
         this.username = username;
-        this.links = links;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getId() {
@@ -33,11 +48,7 @@ public class User {
         this.username = username;
     }
 
-    public String[] getLinks() {
-        return links;
-    }
-
-    public void setLinks(String[] links) {
-        this.links = links;
+    public Document toDocument() {
+        return MongoHelper.toDocument(this);
     }
 }

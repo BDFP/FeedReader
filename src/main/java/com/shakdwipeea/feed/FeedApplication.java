@@ -1,8 +1,8 @@
 package com.shakdwipeea.feed;
 
-import com.mongodb.async.client.MongoClient;
-import com.mongodb.async.client.MongoClients;
-import com.mongodb.async.client.MongoDatabase;
+import com.mongodb.rx.client.MongoClient;
+import com.mongodb.rx.client.MongoClients;
+import com.mongodb.rx.client.MongoDatabase;
 import com.shakdwipeea.feed.healthcheck.MongoHealthCheck;
 import com.shakdwipeea.feed.lifecycle.MongoClientManager;
 import com.shakdwipeea.feed.resources.ApiResources;
@@ -37,6 +37,6 @@ public class FeedApplication extends Application<FeedConfiguration> {
         MongoDatabase database = mongoClient.getDatabase(configuration.getDbName());
         environment.healthChecks().register("database", new MongoHealthCheck(database));
 
-        environment.jersey().register(new ApiResources());
+        environment.jersey().register(new ApiResources(database));
     }
 }

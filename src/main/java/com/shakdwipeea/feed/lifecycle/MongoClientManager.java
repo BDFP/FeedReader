@@ -1,6 +1,6 @@
 package com.shakdwipeea.feed.lifecycle;
 
-import com.mongodb.async.client.MongoClient;
+import com.mongodb.rx.client.MongoClient;
 import io.dropwizard.lifecycle.Managed;
 
 /**

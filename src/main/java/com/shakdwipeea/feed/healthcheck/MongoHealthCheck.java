@@ -1,7 +1,7 @@
 package com.shakdwipeea.feed.healthcheck;
 
 import com.codahale.metrics.health.HealthCheck;
-import com.mongodb.async.client.MongoDatabase;
+import com.mongodb.rx.client.MongoDatabase;
 
 /**
  * @author Akash
