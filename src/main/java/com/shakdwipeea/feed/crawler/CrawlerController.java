@@ -1,17 +1,30 @@
+package com.shakdwipeea.feed.crawler;
+
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+
 /**
  * @author Akash
  *         Created on 23:26 01-09-2016
  */
 public class CrawlerController {
-    static void init() throws Exception {
-        String crawlStorageFolder = "./data/crawl/";
-        int numberOfCrawlers = 7;
+
+    /**
+     *
+     * @param name unique name for crawler, this will be directory in which crawl data is stored
+     * @param seeds The seeds for crawling
+     */
+    static void newCrawler(String name, ArrayList<String> seeds) {
+        String crawlStorageFolder = "./data/crawl/" + name;
+
+        // 4 concurrent threads for each crawler
+        int numberOfCrawlers = 4;
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
@@ -24,22 +37,22 @@ public class CrawlerController {
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 
-        CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+        CrawlController controller;
+        try {
+            controller = new CrawlController(config, pageFetcher, robotstxtServer);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         /*
          * For each crawl, you need to add some seed urls. These are the first
          * URLs that are fetched and then the crawler starts following links
          * which are found in these pages
          */
-        controller.addSeed("http://www.ics.uci.edu/~lopes/");
-        controller.addSeed("http://www.ics.uci.edu/~welling/");
-        controller.addSeed("http://www.ics.uci.edu/");
+        seeds.forEach(controller::addSeed);
 
-        /*
-         * Start the crawl. This is a blocking operation, meaning that your code
-         * will reach the line after this only when crawling is finished.
-         */
-        System.out.println("Starting the crawler");
-        controller.start(PostCrawler.class, numberOfCrawlers);
+        Executors.newSingleThreadExecutor()
+                .submit(() -> controller.start(PostCrawler.class, numberOfCrawlers));
     }
 }

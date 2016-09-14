@@ -1,10 +1,12 @@
-package model;
+package com.shakdwipeea.feed.model;
 
 /**
  * @author Akash
  *         Created on 01:00 04-09-2016
  */
 public class User {
+    public static final String COLLECTION_NAME = "user";
+
     private int id;
     private String username;
     private String[] links;
